@@ -9,6 +9,10 @@ It lives in your `.config` directory, keeps backups of everything it touches, an
 
 This document explains exactly how Candystore works, where to put your themes, and how to make your system instantly transformable.
 
+<p align="center">
+  <img src="https://github.com/h3xkitty/candystore/blob/main/candystore.png" width="600">
+</p>
+
 ---
 
 # 🎨 1. What Candystore Actually *Does*
