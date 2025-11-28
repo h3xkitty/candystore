@@ -382,7 +382,7 @@ candystore -hypr hexkitty -kitty pinkwave -ascii octopus
 
 # 🛡️ 6. Backups & Safety
 Candystore never deletes anything.  
-Everything it touches gets backed up:
+Initially, everything the install script touches gets backed up:
 
 - `kitty.conf.bak`  
 - `starship.toml.bak`  
@@ -393,6 +393,9 @@ Everything it touches gets backed up:
 
 You can always restore your previous setup with no stress.
 
+
+** IMPORTANT **: PLEASE READ AND UNDERSTAND THE SCRIPTS / AND WHAT THEY DO BEFORE USE.
+* the candystore script will copy the .conf from your theme folder and replace the one in your main folder. It is your responsibility to make sure everything on your system is backed up before using this tool.
 ---
 
 # 📁 7. Repo Layout (for Contributors)
