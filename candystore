@@ -1,0 +1,392 @@
+#!/usr/bin/env bash
+
+# --- candystore 🍬 multi-element theme switcher -----------------------------------------
+# creator: h3xkitty
+#
+# what this script does:
+#   lets you change themes for multiple parts of your system with one command.
+#
+#   elements + paths:
+#
+#   -hypr (hyprland)
+#     themes:  ~/.config/hypr/themes/<theme>/hyprland.conf
+#     active:  ~/.config/hypr/hyprland.conf
+#
+#   -kitty (kitty terminal)
+#     themes:  ~/.config/kitty/themes/<theme>.conf
+#     active:  ~/.config/kitty/kitty.conf
+#
+#   -btop (btop colors)
+#     themes:  ~/.config/btop/themes/colors/<theme>.txt
+#     active:  ~/.config/btop/themes/colors.theme
+#     note:    ~/.config/btop/btop.conf is never touched
+#
+#   -fastfetch (config themes)
+#     themes:  ~/.config/fastfetch/themes/<theme>.jsonc
+#     active:  ~/.config/fastfetch/config.jsonc
+#
+#   -ascii (fastfetch ascii logos)
+#     themes:  ~/.config/fastfetch/logos/<theme>.txt
+#     active:  ~/.config/fastfetch/ascii.txt
+#
+#   -starship (prompt themes)
+#     themes:  ~/.config/starship/themes/<theme>.toml
+#     active:  ~/.config/starship.toml
+#
+#   -waybar (bar themes)
+#     themes:  ~/.config/waybar/themes/<theme>/
+#              (each theme dir contains config.jsonc, style.css, scripts, etc.)
+#     active:  ~/.config/waybar/
+#     behavior: copies all files from theme dir into ~/.config/waybar (no delete)
+#
+#   usage:
+#     candystore                        → show menu + how to use
+#     candystore -kitty list            → list kitty themes
+#     candystore -kitty random          → random kitty theme
+#     candystore -kitty dark_pastel     → apply that kitty theme
+#
+#     candystore -hypr list             → list hypr themes
+#     candystore -hypr hexkitty         → apply hexkitty + reload hyprland
+#     candystore -hypr random           → random hypr theme
+#
+#     candystore -ascii lesbian_arch    → apply ascii logo
+#
+#     multiple elements in one go:
+#       candystore -hypr hexkitty -kitty dark_pastel_rainbow -ascii lesbian_arch
+#
+#   notes:
+#     • no backups are created; overwriting is intentional.
+#     • hyprland is reloaded automatically; others just update their files.
+# ---------------------------------------------------------------------------------------
+
+set -e
+
+# ##########################################
+# --- internal: initialize category metadata
+# ##########################################
+init_category() {
+  CATEGORY="$1"
+
+  case "$CATEGORY" in
+    hypr)
+      LIST_MODE="dir"        # themes are directories
+      APPLY_MODE="dir_file"  # copy file inside dir
+      THEME_ROOT="$HOME/.config/hypr/themes"
+      THEME_FILE_NAME="hyprland.conf"
+      TARGET_FILE="$HOME/.config/hypr/hyprland.conf"
+      ;;
+
+    kitty)
+      LIST_MODE="file"       # themes are files
+      APPLY_MODE="file_copy"
+      THEME_ROOT="$HOME/.config/kitty/themes"
+      THEME_EXT=".conf"
+      TARGET_FILE="$HOME/.config/kitty/kitty.conf"
+      ;;
+
+    btop)
+      LIST_MODE="file"
+      APPLY_MODE="file_copy"
+      THEME_ROOT="$HOME/.config/btop/themes/colors"
+      THEME_EXT=".txt"
+      TARGET_FILE="$HOME/.config/btop/themes/colors.theme"
+      ;;
+
+    fastfetch)
+      LIST_MODE="file"
+      APPLY_MODE="file_copy"
+      THEME_ROOT="$HOME/.config/fastfetch/themes"
+      THEME_EXT=".jsonc"
+      TARGET_FILE="$HOME/.config/fastfetch/config.jsonc"
+      ;;
+
+    ascii)
+      LIST_MODE="file"
+      APPLY_MODE="file_copy"
+      THEME_ROOT="$HOME/.config/fastfetch/logos"
+      THEME_EXT=".txt"
+      TARGET_FILE="$HOME/.config/fastfetch/ascii.txt"
+      ;;
+
+    starship)
+      LIST_MODE="file"
+      APPLY_MODE="file_copy"
+      THEME_ROOT="$HOME/.config/starship/themes"
+      THEME_EXT=".toml"
+      TARGET_FILE="$HOME/.config/starship.toml"
+      ;;
+
+    waybar)
+      LIST_MODE="dir"
+      APPLY_MODE="dir_tree"
+      THEME_ROOT="$HOME/.config/waybar/themes"
+      TARGET_DIR="$HOME/.config/waybar"
+      ;;
+
+    *)
+      echo "✖ candystore: unknown element '$CATEGORY'"
+      echo "  valid elements: -hypr -kitty -btop -fastfetch -ascii -starship -waybar"
+      exit 1
+      ;;
+  esac
+}
+
+
+# ##########################################
+# --- internal: list themes for a category 
+# ##########################################
+list_themes_for_category() {
+  echo "🍬 available $CATEGORY themes in $THEME_ROOT:"
+
+  if [ ! -d "$THEME_ROOT" ]; then
+    echo "  (directory not found)"
+    return
+  fi
+
+  local found=0
+
+  if [ "$LIST_MODE" = "dir" ]; then
+    for d in "$THEME_ROOT"/*/; do
+      [ -d "$d" ] || continue
+      basename "$d"
+      found=1
+    done
+  else
+    shopt -s nullglob
+    for f in "$THEME_ROOT"/*"$THEME_EXT"; do
+      [ -f "$f" ] || continue
+      local name
+      name="$(basename "$f")"
+      name="${name%$THEME_EXT}"
+      echo "$name"
+      found=1
+    done
+    shopt -u nullglob
+  fi
+
+  if [ "$found" -eq 0 ]; then
+    echo "  (no themes found)"
+  fi
+}
+
+
+# ##########################################
+# --- internal: pick a random theme name 
+# ##########################################
+pick_random_theme() {
+  local themes=()
+
+  if [ ! -d "$THEME_ROOT" ]; then
+    echo "✖ candystore: no theme directory for '$CATEGORY'"
+    exit 1
+  fi
+
+  if [ "$LIST_MODE" = "dir" ]; then
+    for d in "$THEME_ROOT"/*/; do
+      [ -d "$d" ] || continue
+      themes+=("$(basename "$d")")
+    done
+  else
+    shopt -s nullglob
+    for f in "$THEME_ROOT"/*"$THEME_EXT"; do
+      [ -f "$f" ] || continue
+      local name
+      name="$(basename "$f")"
+      name="${name%$THEME_EXT}"
+      themes+=("$name")
+    done
+    shopt -u nullglob
+  fi
+
+  if [ ${#themes[@]} -eq 0 ]; then
+    echo "✖ candystore: no themes found for random in '$CATEGORY'"
+    exit 1
+  fi
+
+  local idx=$(( RANDOM % ${#themes[@]} ))
+  echo "${themes[$idx]}"
+}
+
+
+# ##########################################
+# --- internal: apply a theme 
+# ##########################################
+apply_theme() {
+  local theme="$1"
+  local src=""
+
+  case "$APPLY_MODE" in
+    file_copy)
+      src="$THEME_ROOT/$theme$THEME_EXT"
+      if [ ! -f "$src" ]; then
+        echo "✖ candystore: theme '$theme' not found for '$CATEGORY'"
+        echo "  looked for: $src"
+        echo
+        list_themes_for_category
+        exit 1
+      fi
+      mkdir -p "$(dirname "$TARGET_FILE")"
+      cp "$src" "$TARGET_FILE"
+      echo "✔ switched $CATEGORY theme to: $theme"
+      ;;
+
+    dir_file)
+      src="$THEME_ROOT/$theme/$THEME_FILE_NAME"
+      if [ ! -f "$src" ]; then
+        echo "✖ candystore: theme '$theme' not found for '$CATEGORY'"
+        echo "  looked for: $src"
+        echo
+        list_themes_for_category
+        exit 1
+      fi
+      mkdir -p "$(dirname "$TARGET_FILE")"
+      cp "$src" "$TARGET_FILE"
+      echo "✔ switched $CATEGORY theme to: $theme"
+      ;;
+
+    dir_tree)
+      src="$THEME_ROOT/$theme"
+      if [ ! -d "$src" ]; then
+        echo "✖ candystore: waybar theme '$theme' not found."
+        echo "  looked for: $src"
+        echo
+        list_themes_for_category
+        exit 1
+      fi
+      mkdir -p "$TARGET_DIR"
+      cp -r "$src"/. "$TARGET_DIR"/
+      echo "✔ switched waybar theme to: $theme"
+      ;;
+
+    *)
+      echo "✖ candystore: unknown APPLY_MODE '$APPLY_MODE'"
+      exit 1
+      ;;
+  esac
+
+  case "$CATEGORY" in
+    hypr)
+      echo "  ↳ reloading hyprland… ✨"
+      hyprctl reload
+      ;;
+    kitty)
+      echo "  ↳ kitty.conf updated — reopen kitty windows. 🐱"
+      ;;
+    btop)
+      echo "  ↳ colors.theme updated — reopen btop. 📊"
+      ;;
+    fastfetch)
+      echo "  ↳ config.jsonc updated — run fastfetch again. ⚡"
+      ;;
+    ascii)
+      echo "  ↳ ascii.txt updated — run fastfetch again. 🌈"
+      ;;
+    starship)
+      echo "  ↳ starship.toml updated — new prompts in new shells. 🚀"
+      ;;
+    waybar)
+      echo "  ↳ waybar files updated — reload waybar or relog. 🌙"
+      ;;
+  esac
+}
+
+
+# ##########################################
+# --- internal: pretty menu 
+# ##########################################
+show_menu() {
+  echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+  echo "┃  🍭 candystore — your system theme shop     ┃"
+  echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+  echo
+  echo "please use this script to change and customize your system themes."
+  echo
+  echo "usage:"
+  echo "  candystore -element action"
+  echo
+  echo "elements:"
+  echo "  -hypr       hyprland themes"
+  echo "  -kitty      kitty terminal themes"
+  echo "  -btop       btop color themes"
+  echo "  -fastfetch  fastfetch config themes"
+  echo "  -ascii      fastfetch ascii logos"
+  echo "  -starship   starship prompt themes"
+  echo "  -waybar     waybar bar themes"
+  echo
+  echo "actions:"
+  echo "  list        show themes for that element"
+  echo "  random      choose one at random"
+  echo "  <name>      apply that theme"
+  echo
+  echo "examples:"
+  echo "  candystore -kitty dark_pastel_rainbow"
+  echo "  candystore -hypr hexkitty"
+  echo "  candystore -ascii lesbian_arch"
+  echo
+  echo "  candystore -kitty list"
+  echo "  candystore -hypr random"
+  echo
+  echo "  candystore -hypr hexkitty -kitty dark_pastel_rainbow -ascii lesbian_arch"
+  echo
+}
+
+
+# ##########################################
+# --- main: no args -> show menu
+# ##########################################
+if [ $# -eq 0 ] || [ "$1" = "-help" ] || [ "$1" = "--help" ]; then
+  show_menu
+  exit 0
+fi
+
+
+# ##########################################
+# --- main: process multiple -element action pairs
+# ##########################################
+while [ $# -gt 0 ]; do
+  arg="$1"
+
+  if [[ "$arg" != -* ]]; then
+    echo "✖ candystore: expected -element, got '$arg'"
+    echo "   try: candystore -kitty list"
+    exit 1
+  fi
+
+  CATEGORY="${arg#-}"
+  shift
+
+  init_category "$CATEGORY"
+
+  # if no more args → list themes for this category
+  if [ $# -eq 0 ]; then
+    list_themes_for_category
+    break
+  fi
+
+  # if next token starts with '-' → treat this as 'list'
+  if [[ "$1" == -* ]]; then
+    list_themes_for_category
+    continue
+  fi
+
+  action="$1"
+  shift
+
+  case "$action" in
+    list|-list|--list)
+      list_themes_for_category
+      ;;
+
+    random)
+      theme_name="$(pick_random_theme)"
+      echo "🎲 random $CATEGORY candy selected: $theme_name"
+      apply_theme "$theme_name"
+      ;;
+
+    *)
+      theme_name="$action"
+      apply_theme "$theme_name"
+      ;;
+  esac
+done
+

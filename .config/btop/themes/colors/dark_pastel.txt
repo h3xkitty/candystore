@@ -1,0 +1,78 @@
+# Theme: pastel-girlcore (transparent + bright pastels)
+# for morgan 💗
+
+# ─────────────────────────────
+# transparent background
+# ─────────────────────────────
+# leave empty string → use terminal background!
+theme[main_bg]=""
+
+# foreground text
+theme[main_fg]="#f8f2fb"   # bright soft lilac
+
+# box titles
+theme[title]="#ffb3d9"     # bright rose
+
+# highlights
+theme[hi_fg]="#ffd1dc"     # pastel pink pop
+
+# selected row
+theme[selected_bg]="#4a3a4f"  # dark translucent mauve
+theme[selected_fg]="#ffffff"
+
+# inactive text
+theme[inactive_fg]="#c7b3cc" # softer lavender-grey
+
+# process misc text
+theme[proc_misc]="#bda7e8"   # bright lavender
+
+# borders
+theme[cpu_box]="#6e5a78"
+theme[mem_box]="#6e5a78"
+theme[net_box]="#6e5a78"
+theme[proc_box]="#6e5a78"
+theme[div_line]="#6e5a78"
+
+# ─────────────────────────────
+# BRIGHT PASTEL GRADIENTS
+# ─────────────────────────────
+
+# temps (mint → butter → rose)
+theme[temp_start]="#c8f8c8"
+theme[temp_mid]  ="#ffeaaa"
+theme[temp_end]  ="#ff9ac7"
+
+# cpu bars (mint → periwinkle → pink)
+theme[cpu_start]="#c8f8c8"
+theme[cpu_mid]  ="#c8d4ff"
+theme[cpu_end]  ="#ffb3d9"
+
+# free mem/disk (mint → lilac → white)
+theme[free_start]="#c8f8c8"
+theme[free_mid]  ="#d9c9ff"
+theme[free_end]  ="#ffffff"
+
+# cached mem/disk (peach → yellow → rose)
+theme[cached_start]="#ffd7b3"
+theme[cached_mid]  ="#fff3a3"
+theme[cached_end]  ="#ff9ac7"
+
+# available (mint → teal → periwinkle)
+theme[available_start]="#c8f8c8"
+theme[available_mid]  ="#bde8ef"
+theme[available_end]  ="#c8d4ff"
+
+# used (rose → mauve → lilac)
+theme[used_start]="#ff9ac7"
+theme[used_mid]  ="#c89ad6"
+theme[used_end]  ="#e8dbff"
+
+# net-down (teal → periwinkle → lilac)
+theme[download_start]="#bde8ef"
+theme[download_mid]  ="#c8d4ff"
+theme[download_end]  ="#e8dbff"
+
+# net-up (peach → yellow → rose)
+theme[upload_start]="#ffd7b3"
+theme[upload_mid]  ="#fff3a3"
+theme[upload_end]  ="#ff9ac7"

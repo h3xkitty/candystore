@@ -1,0 +1,263 @@
+[
+  // =========================
+  // dp-1 (main screen)
+  // left: arch, workspaces, window
+  // center: music
+  // right: wifi, bluetooth, clock, power
+  // =========================
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 8,
+    "output": "DP-1",
+
+    "modules-left": [
+      "custom/arch",
+      "hyprland/workspaces",
+      "hyprland/window"
+    ],
+
+    "modules-center": [
+      "mpris"
+    ],
+
+    "modules-right": [
+      "custom/record",
+      "custom/screenshot",
+      "network",
+      "bluetooth",
+      "clock",
+      "custom/logout"
+    ],
+
+    // workspaces
+    "hyprland/workspaces": {
+      "disable-scroll": false,
+      "all-outputs": true,
+      "format": "{name}",
+      "persistent-workspaces": {
+        "*": [1,2,3,4,5,6,7,8,9,10]
+      }
+    },
+
+    // arch logo
+    "custom/arch": {
+      "format": "",
+      "tooltip": "Arch Linux",
+      "markup": "pango"
+    },
+
+    // active window title w/ shell rewrites
+    "hyprland/window": {
+      "format": "::💖:: {class}: {title}",
+      "max-length": 60,
+      "separate-outputs": false,
+      "rewrite": {
+        ".*[Ff]ish.*": "fish",
+        ".*[Zz]sh.*": "zsh",
+        ".*[Bb]ash.*": "bash",
+        "([Kk]itty|[Ww]arp|[Aa]lacritty|[Ff]oot|[Ww]ezterm|[Tt]erminal)": "terminal"
+      }
+    },
+
+    // media (spotify etc)
+    "mpris": {
+      "format": "{status_icon} {artist} - {title}",
+      "status-icons": {
+        "playing": "",
+        "paused": "",
+        "stopped": ""
+      },
+      "max-length": 175,
+      "ignored-players": []
+    },
+
+    "custom/record": {
+      "exec": "bash -lc /home/morgan/.config/waybar/record-status.sh",
+      "interval": 1,
+      "return-type": "json",
+      "tooltip": "record",
+      "on-click": "bash -lc /home/morgan/.config/waybar/record.sh"
+    },
+
+    "custom/screenshot": {
+      "format": "",
+      "tooltip": "take screenshot",
+      "on-click": "~/.config/waybar/screenshot.sh",
+      "tooltip": "take screenshot"
+    },
+
+    // wifi / network
+    "network": {
+      "format-wifi": " {essid}",
+      "format-ethernet": "󰈀 wired",
+      "format-disconnected": "󰖪 off",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+      "tooltip-format-ethernet": "{ifname}",
+      "tooltip-format-disconnected": "disconnected"
+    },
+
+    // bluetooth
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": " off",
+      "format-connected": " {device_alias}",
+      "tooltip-format": "{device_alias} ({device_address})",
+      "interactive": true,
+      "on-click": "blueman-manager"
+    },
+
+    // clock
+    "clock": {
+      "format": " {:%H:%M}"
+    },
+
+    // power / logout
+    "custom/logout": {
+      "format": "⏻",
+      "tooltip": "logout / power menu",
+      "on-click": "wlogout || hyprctl dispatch exit"
+    }
+  },
+
+  // =========================
+  // dp-2 (side)
+  // left: arch, workspaces
+  // right: wifi, bluetooth, clock, power
+  // =========================
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 8,
+    "output": "DP-2",
+
+    "modules-left": [
+      "custom/arch",
+      "hyprland/workspaces"
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+      "network",
+      "bluetooth",
+      "clock",
+      "custom/logout"
+    ],
+
+    "hyprland/workspaces": {
+      "disable-scroll": false,
+      "all-outputs": true,
+      "format": "{name}",
+      "persistent-workspaces": {
+        "*": [1,2,3,4,5,6,7,8,9,10]
+      }
+    },
+
+    "custom/arch": {
+      "format": "",
+      "tooltip": "Arch Linux",
+      "markup": "pango"
+    },
+
+    "network": {
+      "format-wifi": " {essid}",
+      "format-ethernet": "󰈀 wired",
+      "format-disconnected": "󰖪 off",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+      "tooltip-format-ethernet": "{ifname}",
+      "tooltip-format-disconnected": "disconnected"
+    },
+
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": " off",
+      "format-connected": " {device_alias}",
+      "tooltip-format": "{device_alias} ({device_address})",
+      "interactive": true,
+      "on-click": "blueman-manager"
+    },
+
+    "clock": {
+      "format": " {:%H:%M}"
+    },
+
+    "custom/logout": {
+      "format": "⏻",
+      "tooltip": "logout / power menu",
+      "on-click": "wlogout || hyprctl dispatch exit"
+    }
+  },
+
+  // =========================
+  // dp-3 (side)
+  // left: arch, workspaces
+  // right: wifi, bluetooth, clock, power
+  // =========================
+  {
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 8,
+    "output": "DP-3",
+
+    "modules-left": [
+      "custom/arch",
+      "hyprland/workspaces"
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+      "network",
+      "bluetooth",
+      "clock",
+      "custom/logout"
+    ],
+
+    "hyprland/workspaces": {
+      "disable-scroll": false,
+      "all-outputs": true,
+      "format": "{name}",
+      "persistent-workspaces": {
+        "*": [1,2,3,4,5,6,7,8,9,10]
+      }
+    },
+
+    "custom/arch": {
+      "format": "",
+      "tooltip": "Arch Linux",
+      "markup": "pango"
+    },
+
+    "network": {
+      "format-wifi": " {essid}",
+      "format-ethernet": "󰈀 wired",
+      "format-disconnected": "󰖪 off",
+      "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+      "tooltip-format-ethernet": "{ifname}",
+      "tooltip-format-disconnected": "disconnected"
+    },
+
+    "bluetooth": {
+      "format": " {status}",
+      "format-disabled": " off",
+      "format-connected": " {device_alias}",
+      "tooltip-format": "{device_alias} ({device_address})",
+      "interactive": true,
+      "on-click": "blueman-manager"
+    },
+
+    "clock": {
+      "format": " {:%H:%M}"
+    },
+
+    "custom/logout": {
+      "format": "⏻",
+      "tooltip": "logout / power menu",
+      "on-click": "wlogout || hyprctl dispatch exit"
+    }
+  }
+]

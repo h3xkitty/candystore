@@ -1,0 +1,251 @@
+/* =========================
+   late-night noir / soft neon
+   polished + corrected theme
+   ========================= */
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: JetBrainsMono Nerd Font, sans-serif;
+  font-size: 12px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+window#waybar {
+  background: rgba(5, 5, 10, 0.88);
+  border-bottom: 1px solid rgba(255, 150, 80, 0.22);
+  box-shadow: 0px 2px 12px rgba(255, 130, 60, 0.12);
+}
+
+/* =========================
+   WORKSPACES
+   ========================= */
+
+#workspaces button {
+  padding: 0px 6px;          /* smaller */
+  margin: 0px 3px;           /* a little more space */
+  border-radius: 999px;      /* round / circle vibe */
+  background: rgba(255, 255, 255, 0.03);
+  color: #bdb8d7;
+  transition: all 0.15s ease;
+}
+
+#workspaces button:hover {
+  background: rgba(255, 150, 80, 0.08);
+  color: #ffffff;
+}
+
+/* current (active) workspace: less glow */
+#workspaces button.active {
+  background: rgba(192, 175, 255, 0.18);  /* slightly less bright */
+  color: #ffffff;
+  box-shadow:
+    0px 0px 6px rgba(180, 120, 255, 0.55),  /* softer purple */
+    0px 0px 3px rgba(255, 140, 70, 0.40);   /* softer orange ember */
+}
+
+/* urgent stays punchy but a touch rounder */
+#workspaces button.urgent {
+  background: rgba(255, 120, 140, 0.30);
+  color: #ffffff;
+  box-shadow: 0px 0px 5px rgba(255, 120, 140, 0.55);
+}
+
+/* =========================
+   WINDOW TITLE
+   ========================= */
+
+#window {
+  margin: 4px 3px;
+  padding: 0px 10px;
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.04);
+  color: #eae7ff;
+  font-weight: 500;
+
+  box-shadow: inset 0px 0px 0px 1px rgba(255, 160, 90, 0.12);
+}
+
+/* =========================
+   ARCH LOGO — NO HOVER GLOW
+   ========================= */
+
+#custom-arch {
+  padding: 0px 10px;
+  font-size: 16px;
+  color: #ffffff;
+  opacity: 0.85;
+
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+
+  margin-left: 10px;
+  margin-right: 15px;
+
+  transition: opacity 0.2s ease;
+}
+
+#custom-arch:hover {
+  opacity: 1.0; /* ← simple clean hover, NO glow */
+}
+
+/* =========================
+   MPRIS (MUSIC)
+   Transparent, no glow
+   ========================= */
+
+#mpris {
+  margin: 4px 3px;
+  padding: 0px 10px;
+  border-radius: 10px;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  color: #f1eeff;
+}
+
+/* =========================
+   RIGHT-SIDE TRANSPARENT PILLS
+   Slightly more spacing + softer glow
+   ========================= */
+
+/* record button base */
+#custom-record {
+  margin: 4px 5px;
+  padding: 0px 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  font-size: 15px;
+  color: #f7f4ff;           /* normal camera color */
+  transition: all 0.15s ease;
+}
+
+/* idle hover: soft orange glow */
+#custom-record.idle:hover {
+  border: 1px solid rgba(255, 150, 80, 0.18);
+  box-shadow: 0px 0px 4px rgba(255, 140, 70, 0.25);
+}
+
+/* recording state: red dot color */
+#custom-record.recording {
+  color: #ff5c5c;
+}
+
+/* recording hover: red glow */
+#custom-record.recording:hover {
+  border: 1px solid rgba(255, 90, 90, 0.30);
+  box-shadow:
+    0 0 4px rgba(255, 90, 90, 0.25),
+    0 0 8px rgba(255, 90, 90, 0.35);
+}
+
+#custom-screenshot {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0 12px;
+  margin: 4px 3px;
+  border-radius: 10px;
+  transition: 0.15s ease;
+}
+
+#network,
+#tray,
+#bluetooth {
+  margin: 4px 5px;   /* increased from 3px → 5px for breathing room */
+  padding: 0px 10px;
+  border-radius: 10px;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  color: #f7f4ff;
+
+  transition: all 0.15s ease;
+}
+
+/* softer hover glow + gentler border */
+#network:hover,
+#tray:hover,
+#custom-screenshot:hover,
+#bluetooth:hover {
+  background: transparent;
+  border: 1px solid rgba(255, 150, 80, 0.18);  /* slightly softer */
+  box-shadow: 0px 0px 4px rgba(255, 140, 70, 0.25); /* softer + smaller */
+}
+
+/* =========================
+   CLOCK — softened + spaced
+   ========================= */
+
+#clock {
+  margin: 4px 5px;   /* match spacing */
+  padding: 0px 10px;
+  border-radius: 10px;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  color: #f7f4ff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  transition: all 0.15s ease;
+}
+
+#clock:hover {
+  border: 1px solid rgba(255, 150, 80, 0.18);   /* softer border */
+  box-shadow: 0px 0px 4px rgba(255, 140, 70, 0.25); /* softer glow */
+}
+
+/* =========================
+   POWER BUTTON — pill shaped,
+   transparent idle, glow hover
+   ========================= */
+
+#custom-logout {
+  margin: 4px 3px;
+  padding: 0px 12px;
+  border-radius: 10px; /* ← restored shape */
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  font-size: 14px;
+  color: #f3f0ff;
+
+  margin-left: 15px;   /* ← your exact requested spacing */
+  margin-right: 10px;
+
+  transition: all 0.15s ease;
+}
+
+#custom-logout:hover {
+  background: transparent;
+  border: 1px solid rgba(255, 150, 80, 0.22);
+  box-shadow:
+    0px 0px 8px rgba(255, 120, 70, 0.75),
+    0px 0px 6px rgba(255, 90, 120, 0.55);
+}
+
+/* =========================
+   TOOLTIP
+   ========================= */
+
+tooltip {
+  background: rgba(12, 12, 20, 0.95);
+  color: #efeaff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  border: 1px solid rgba(192, 175, 255, 0.25);
+}
