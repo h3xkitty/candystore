@@ -1,0 +1,125 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+  // =====================================================
+  //  LOGO — BRIGHT DARK PASTELS ($1..$5 colors)
+  // =====================================================
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/ascii.txt",
+
+    // 5-color mapping for the ASCII logo file
+    "color": {
+     "1":  "#D62900", // 1     
+     "2":  "#FF9B55", // 2 
+     "3":  "#FFFFFF", // 3
+     "4":  "#D461A6", // 4 
+     "5":  "#A50062", // 5
+     "6":  "#55CDFC", // 12
+     "7":  "#FFFFFF", // 13 
+     "8":  "#F7A8B8", // 14
+     "9":  "#f0e8f6", // 16  
+
+    /*  GUIDE:
+     1. #3a2a3d 2. #4a3449 3. #5d4157 4. #77536e 5. #956a88 6. #b78baa 7. #d78caa 8. #f3c4d5
+     9. #e0c3a4 10. #ecddb3 11. #ddd88e 12. #b2d8b2 13. #a6cdd0 14. #afbbe3 15. #ccb7e9 16. #f0e8f6
+    */
+
+    },
+
+    "padding": {
+      "top": 0,
+      "left": 0,
+      "right": 2
+    }
+  },
+
+  // =====================================================
+  //  DISPLAY / LAYOUT
+  // =====================================================
+  "display": {
+    "separator": " ✦ ",
+    "color": "#d78caa",
+    "key": {
+      "width": 18,
+      "type": "both"
+    }
+  },
+
+  // =====================================================
+  //  GLOBAL 16-COLOR BRIGHT DARK PASTEL PALETTE
+  // =====================================================
+  "colors": {
+    "1":  "#3a2a3d", // deep plum
+    "2":  "#4a3449", // mauve shadow
+    "3":  "#5d4157", // bruise-rose
+    "4":  "#77536e", // muted lavender
+    "5":  "#956a88", // dusty violet
+    "6":  "#b78baa", // lavender dusk
+    "7":  "#d78caa", // bright dusty rose
+    "8":  "#f3c4d5", // vintage pink
+
+    "9":  "#e0c3a4", // bright peach
+    "10": "#ecddb3", // dusty butter
+    "11": "#ddd88e", // antique yellow
+    "12": "#b2d8b2", // pastel mint
+    "13": "#a6cdd0", // storm teal pastel
+    "14": "#afbbe3", // pastel periwinkle
+    "15": "#ccb7e9", // smoky lavender
+    "16": "#f0e8f6"  // cloudy lilac
+  },
+
+  // =====================================================
+  //  MODULES (all colors aligned to palette)
+  // =====================================================
+  "modules": [
+    { "type": "os",       "key": " os:       ", "keyColor": "#d78caa" },
+    { "type": "host",     "key": " host:     ", "keyColor": "#f3c4d5" },
+    { "type": "kernel",   "key": " kernel:   ", "keyColor": "#afbbe3" },
+    { "type": "uptime",   "key": " uptime:   ", "keyColor": "#b2d8b2" },
+    { "type": "shell",    "key": " shell:    ", "keyColor": "#d78caa" },
+    { "type": "wm",       "key": " wm:       ", "keyColor": "#ccb7e9" },
+    { "type": "packages", "key": " packages: ", "keyColor": "#ecddb3" },
+    { "type": "memory",   "key": " memory:   ", "keyColor": "#dfb897" },
+    { "type": "cpu",      "key": " cpu:      ", "keyColor": "#ddd88e" },
+    { "type": "gpu",      "key": " gpu:      ", "keyColor": "#a6cdd0" },
+    { "type": "display",  "key": " display:  ", "keyColor": "#d78caa" },
+    { "type": "disk",     "key": " disk:     ", "keyColor": "#e0c3a4", "folders": ["/"] },
+    { "type": "battery",  "key": " battery:  ", "keyColor": "#b2d8b2" },
+
+    // spacer
+    { "type": "custom", "format": "" },
+
+    // =====================================================
+    //  PALETTE ROW 1 — dark → mid pastels
+    // =====================================================
+    {
+      "type": "custom",
+      "format": "            {##3a2a3d}███{##4a3449}███{##5d4157}███{##77536e}███{##956a88}███{##b78baa}███{##d78caa}███{##f3c4d5}███{#}"
+    },
+
+    // =====================================================
+    //  PALETTE ROW 2 — warm → cool bright pastels
+    // =====================================================
+    {
+      "type": "custom",
+      "format": "            {##e0c3a4}███{##ecddb3}███{##ddd88e}███{##b2d8b2}███{##a6cdd0}███{##afbbe3}███{##ccb7e9}███{##f0e8f6}███{#}"
+    },
+
+    // =====================================================
+    //  MOTIVATION LINE 💗
+    // =====================================================
+    { "type": "custom", "format": "" },
+    {
+      "type": "custom",
+      "format": "             {##ffd1dc}be kind to yourself {##d8efff} {#}"
+    }
+  ],
+
+  // =====================================================
+  //  NO BLOCK COLORS
+  // =====================================================
+  "colorBlocks": {
+    "enabled": false
+  }
+}
