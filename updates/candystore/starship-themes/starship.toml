@@ -1,0 +1,76 @@
+# ───────────────────────────────────────────
+#   ✨ GIRLY HACKER STARSHIP PROMPT ✨
+#           for morgan 💗
+# ───────────────────────────────────────────
+
+# RIGHT SIDE (must be defined as a single string)
+right_format = "$time  [♥](#d78caa)"
+
+# GLOBAL PROMPT FORMAT
+format = """
+[💀](#d78caa)\
+$directory\
+[*✧｡](#d78caa)\
+$shell\
+$git_branch\
+$git_status\
+$cmd_duration\
+$character
+"""
+
+# CHARACTER (prompt symbol)
+[character]
+success_symbol = "[❥](#f3c4d5)"
+error_symbol   = "[✗](#d78caa)"
+vicmd_symbol   = "[❥](#afbbe3)"
+format         = "$symbol "
+
+# DIRECTORY
+[directory]
+style             = "bold #f0e8f6"
+read_only         = ""
+read_only_style   = "bold #f3c4d5"
+truncation_length = 3
+truncate_to_repo  = false
+format            = "[ $path ]($style)"
+
+# SHELL (new)
+[shell]
+disabled        = false
+style           = "#ffb3d9"
+fish_indicator  = " fish "
+bash_indicator  = " bash "
+zsh_indicator   = " zsh "
+# you can tweak the icons/text above however you like
+format          = "[$indicator]($style)"
+
+# GIT BRANCH
+[git_branch]
+symbol = "🌸 "
+style  = "bold #d78caa"
+format = " [$symbol$branch]($style) "
+
+# GIT STATUS
+[git_status]
+style  = "bold #f3c4d5"
+format = "([$all_status]($style) )"
+
+# COMMAND DURATION
+[cmd_duration]
+min_time = 500
+format   = "[⏱ $duration](#afbbe3) "
+
+# TIME (right side)
+[time]
+disabled    = false
+time_format = "%H:%M"
+style       = "#d78caa"
+format      = "  $time "
+
+# BATTERY (optional)
+[battery]
+full_symbol        = "💗"
+charging_symbol    = "💕"
+discharging_symbol = "💔"
+unknown_symbol     = "❣"
+format             = "[$symbol $percentage](#f3c4d5) "
